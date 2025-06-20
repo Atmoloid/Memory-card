@@ -2,34 +2,48 @@ import { useState, useEffect } from 'react';
 import './card.css';
 
 function Card() {
-  const [pokemon, setPokemon] = useState(null);
-  const [count, setCount] = useState(1); // ID del Pokémon da visualizzare
+  const [pokemons, setPokemons] = useState([]);
+  const [startId, setStartId] = useState(780); // Da quale ID iniziare
 
   useEffect(() => {
-    // Funzione per fetchare il Pokémon dalla PokéAPI
-    const fetchPokemon = async () => {
+    const fetchPokemons = async () => {
       try {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon/${count}')
-        setPokemon(data);
-      } catch (error) {
-        console.error('Error while loading ', error);
-      }
+        const promises = [];
+
+        // Ad esempio, mostra 5 Pokémon a partire da startId
+        for (let i = startId; i < startId + 14; i++) {
+          promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${i}`).then(res => res.json()));
+        }
+
+        const results = await Promise.all(promises); // aspetta tutte le richieste
+        setPokemons(results); // aggiorna lo stato
+      } catch(error){
+        console.error("Error while loading", error)
+      };
+      ;
+      
+      
     };
 
-    fetchPokemon();
-  }, [count]); // Ricarica quando cambia il count
+    fetchPokemons();
+  }, [startId]); // cambia quando cambia l'ID di partenza
 
   return (
     <div className='card-container'>
-      {pokemon ? (
-        <>
-          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-        </>
+      {pokemons.length > 0 ? (
+        pokemons.map((pokemon) => (
+          <div key={pokemon.id} className="pokemon-card">
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+          </div>
+        ))
       ) : (
-        <p>Caricamento...</p>
+        <p>Loading...</p>
       )}
-    </div>
+
+      </div>
+    
   );
 }
 
 export default Card;
+
