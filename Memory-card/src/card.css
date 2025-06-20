@@ -1,5 +1,6 @@
 .card-container{
     display: flex;
+    justify-content: flex-start;
     align-items: flex-start;
     width: 1200px;
     padding-left: 45%;
@@ -7,4 +8,11 @@
     height: 550px;
     border: 5px solid black;
     box-sizing: border-box;
+}
+.card-container > img{
+    display: flex;
+    width: 30%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5%;
 }
