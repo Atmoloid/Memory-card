@@ -27,12 +27,24 @@ function Card() {
 
     fetchPokemons();
   }, [startId]); // cambia quando cambia l'ID di partenza
+    // Funzione per mischiare un array (Fisher-Yates shuffle)
+  const shuffleArray = (array) => {
+    const newArray = [...array]; // Crea una copia per non modificare l'array originale direttamente
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Scambia gli elementi
+    }
+    return newArray;
+  };
 
+  const changePosition = () => {
+    setPokemons(shuffleArray(pokemons));
+  };
   return (
     <div className='card-container'>
       {pokemons.length > 0 ? (
         pokemons.map((pokemon) => (
-          <div key={pokemon.id} className="pokemon-card">
+          <div key={pokemon.id} className="pokemon-card" onClick={changePosition}>
             <img src={pokemon.sprites.front_default} alt={pokemon.name} />
           </div>
         ))

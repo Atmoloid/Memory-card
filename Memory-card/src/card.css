@@ -19,6 +19,7 @@
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .pokemon-card > img {
