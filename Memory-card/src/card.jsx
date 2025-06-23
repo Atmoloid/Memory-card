@@ -40,12 +40,16 @@ function Card() {
   const changePosition = () => {
     setPokemons(shuffleArray(pokemons));
   };
+
+  const genrateKey = crypto.randomUUID();
+
+  console.log(genrateKey);
   return (
     <div className='card-container'>
       {pokemons.length > 0 ? (
         pokemons.map((pokemon) => (
           <div key={pokemon.id} className="pokemon-card" onClick={changePosition}>
-            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} key={genrateKey}/>
           </div>
         ))
       ) : (
