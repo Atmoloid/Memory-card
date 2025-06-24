@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import './card.css';
+import Score from './score';
 
 function Card() {
   const [pokemons, setPokemons] = useState([]);
   const [startId, setStartId] = useState(780); // Da quale ID iniziare
+  const [lastClicked, setLastClicked] = useState(null); // Pokémon cliccato
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -43,12 +45,18 @@ function Card() {
 
   const genrateKey = crypto.randomUUID();
 
-  console.log(genrateKey);
+  const handleClick = (id) => {
+    setLastClicked(id); // Comunica al componente Score quale è stato l'ultimo cliccato
+    setPokemons(shuffleArray(pokemons)); // Mischia sempre
+  };
+
+
   return (
     <div className='card-container'>
+      <Score lastClicked={lastClicked} />
       {pokemons.length > 0 ? (
         pokemons.map((pokemon) => (
-          <div key={pokemon.id} className="pokemon-card" onClick={changePosition}>
+          <div key={pokemon.id} className="pokemon-card"  onClick={() => handleClick(pokemon.id)}>
             <img src={pokemon.sprites.front_default} alt={pokemon.name} key={genrateKey}/>
           </div>
         ))
@@ -62,4 +70,3 @@ function Card() {
 }
 
 export default Card;
-
