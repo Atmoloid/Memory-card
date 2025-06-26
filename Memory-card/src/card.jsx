@@ -4,21 +4,21 @@ import Score from './score';
 
 function Card() {
   const [pokemons, setPokemons] = useState([]);
-  const [startId, setStartId] = useState(780); // Da quale ID iniziare
-  const [lastClicked, setLastClicked] = useState(null); // Pokémon cliccato
+  const [startId, setStartId] = useState(780); 
+  const [lastClicked, setLastClicked] = useState(null); 
 
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         const promises = [];
 
-        // Ad esempio, mostra 5 Pokémon a partire da startId
+       
         for (let i = startId; i < startId + 14; i++) {
           promises.push(fetch(`https://pokeapi.co/api/v2/pokemon/${i}`).then(res => res.json()));
         }
 
-        const results = await Promise.all(promises); // aspetta tutte le richieste
-        setPokemons(results); // aggiorna lo stato
+        const results = await Promise.all(promises); 
+        setPokemons(results);
       } catch(error){
         console.error("Error while loading", error)
       };
@@ -28,13 +28,12 @@ function Card() {
     };
 
     fetchPokemons();
-  }, [startId]); // cambia quando cambia l'ID di partenza
-    // Funzione per mischiare un array (Fisher-Yates shuffle)
+  }, [startId]); 
   const shuffleArray = (array) => {
-    const newArray = [...array]; // Crea una copia per non modificare l'array originale direttamente
+    const newArray = [...array]; 
     for (let i = newArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Scambia gli elementi
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; 
     }
     return newArray;
   };
@@ -46,8 +45,8 @@ function Card() {
   const genrateKey = crypto.randomUUID();
 
   const handleClick = (id) => {
-    setLastClicked(id); // Comunica al componente Score quale è stato l'ultimo cliccato
-    setPokemons(shuffleArray(pokemons)); // Mischia sempre
+    setLastClicked(id); 
+    setPokemons(shuffleArray(pokemons)); 
   };
 
 

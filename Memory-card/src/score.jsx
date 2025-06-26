@@ -1,31 +1,37 @@
 import { useState, useEffect } from 'react';
-import "./score.css"
+import "./score.css";
 
-function Score({ lastClicked }){
-    const [score, setScore] = useState(0);
-    const [clickedPokemons, setClickedPokemons] = useState([]);
-    useEffect(() => {
-        if (lastClicked === null) return;
-    
-        if (clickedPokemons.includes(lastClicked)) {
-          // Pokémon già cliccato → reset
-          alert('You lose');
-          setScore(0);
-          setClickedPokemons([]);
-        } else {
-          // Nuovo Pokémon → incrementa
-          setScore(score + 1);
-          setClickedPokemons([...clickedPokemons, lastClicked]);
-        }
-      }, [lastClicked]); // Triggera quando cambia il Pokémon cliccato
-    
-  return(
-    <>
+function Score({ lastClicked }) {
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0); 
+  const [clickedPokemons, setClickedPokemons] = useState([]);
+
+  useEffect(() => {
+    if (lastClicked === null) return;
+
+    if (clickedPokemons.includes(lastClicked)) {
+      
+      alert('You lose');
+      setScore(0);
+      setClickedPokemons([]);
+    } else {
+      
+      const newScore = score + 1;
+      setScore(newScore);
+      setClickedPokemons([...clickedPokemons, lastClicked]);
+
+     
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+      }
+    }
+  }, [lastClicked]);
+
+  return (
     <div className="score-container">
-    <p>Score: {score}</p>
+      <p>Score: {score} | Best Score: {bestScore}</p>
     </div>
-    </>
-  )
+  );
 }
 
-export default Score
+export default Score;
